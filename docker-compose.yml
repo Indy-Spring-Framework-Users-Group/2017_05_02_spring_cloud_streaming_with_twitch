@@ -1,0 +1,61 @@
+version: '2'
+
+services:
+  chatbot:
+    build: chatbot/
+    ports:
+     - "9000:9000"
+    depends_on:
+     - rabbit
+    links:
+     - rabbit
+    environment:
+      SPRING_RABBITMQ_HOST: rabbit
+      SERVER_PORT: 9000
+      TWITCH_BOTNICK: ${TWITCH_BOTNICK}
+      TWITCH_CHANNEL: ${TWITCH_CHANNEL}
+      TWITCH_OAUTHTOKEN: ${TWITCH_OAUTHTOKEN}
+
+  emotewatcher:
+    build: emotewatcher/
+    ports:
+     - "8080:8080"
+    depends_on:
+     - rabbit
+    links:
+     - rabbit
+    environment:
+      SPRING_RABBITMQ_HOST: rabbit
+      SERVER_PORT: 8080
+      TWITCH_CHANNEL: ${TWITCH_CHANNEL}
+
+  chattingusers:
+    build: chattingusers/
+    ports:
+     - "8081:8081"
+    depends_on:
+     - rabbit
+    links:
+     - rabbit
+    environment:
+      SPRING_RABBITMQ_HOST: rabbit
+      SERVER_PORT: 8081
+
+  rabbit:
+    image: rabbitmq:3.6.7-management
+    mem_limit: 128m
+    ports:
+      # Access Port
+      - "5672:5672"
+      # Management Port, guest:guest
+      - "15672:15672"
+
+# Gets around the issues with our network on docker for mac, thanks Seth!
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.10.0/24
+          gateway: 10.10.10.1
