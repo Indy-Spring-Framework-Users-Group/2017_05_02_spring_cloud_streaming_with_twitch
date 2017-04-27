@@ -6,6 +6,6 @@ server:
 
 twitch:
   botNick: indysfug
-  channel: "hireztv"
+  channel: indysfug
   oauthToken: CHANGE_ME
 

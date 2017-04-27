@@ -7,7 +7,7 @@ server:
   port: 8080
 
 twitch:
-  channel: "indysfug"
+  channel: indysfug
 
 management:
   security:
