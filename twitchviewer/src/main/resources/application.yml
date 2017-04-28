@@ -1,0 +1,12 @@
+spring.cloud.stream.bindings.input.destination: twitchChatEmotes
+spring.cloud.stream.default.contentType: application/json
+
+server:
+  port: 8080
+
+twitch:
+  channel: indysfug
+
+management:
+  security:
+    enabled: false

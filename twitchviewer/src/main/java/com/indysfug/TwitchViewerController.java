@@ -1,9 +1,9 @@
 package com.indysfug;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Controller
 @Slf4j
-public class EmoteController {
+public class TwitchViewerController {
     private final List<SseEmitter> emitters = Collections.synchronizedList(new ArrayList<>());
 
     @Value("${twitch.channel}")
@@ -42,8 +42,9 @@ public class EmoteController {
         return emitter;
     }
 
-    @StreamListener(EmoteStream.TWITCH_EMOTES)
+    @StreamListener(Sink.INPUT)
     public void process(String rawEmoteMessage) throws Exception {
+        log.info("Received emote message - broadcasting to {} SSEs: {}", emitters.size(), rawEmoteMessage);
         List<SseEmitter> emittersToBeRemoved = new ArrayList<>();
         for (SseEmitter sseEmitter : emitters) {
             SseEmitter emitterToBeRemoved = null;

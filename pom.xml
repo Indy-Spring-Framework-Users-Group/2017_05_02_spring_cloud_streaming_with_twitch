@@ -61,6 +61,7 @@
         <module>emotewatcher</module>
         <module>chattingusers</module>
         <module>chatbot-ai</module>
+        <module>twitchviewer</module>
     </modules>
 
     <build>

@@ -3,15 +3,12 @@ version: '2'
 services:
   chatbot:
     build: chatbot/
-    ports:
-     - "9000:9000"
     depends_on:
      - rabbit
     links:
      - rabbit
     environment:
       SPRING_RABBITMQ_HOST: rabbit
-      SERVER_PORT: 9000
       TWITCH_BOTNICK: ${TWITCH_BOTNICK}
       TWITCH_CHANNEL: ${TWITCH_CHANNEL}
       TWITCH_OAUTHTOKEN: ${TWITCH_OAUTHTOKEN}
@@ -27,8 +24,17 @@ services:
 
   emotewatcher:
     build: emotewatcher/
+    depends_on:
+     - rabbit
+    links:
+     - rabbit
+    environment:
+      SPRING_RABBITMQ_HOST: rabbit
+
+  twitchviewer:
+    build: twitchviewer/
     ports:
-     - "8080:8080"
+     - "8080"
     depends_on:
      - rabbit
     links:

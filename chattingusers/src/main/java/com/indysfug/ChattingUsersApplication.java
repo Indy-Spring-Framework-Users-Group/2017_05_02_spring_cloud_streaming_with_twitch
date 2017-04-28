@@ -1,6 +1,7 @@
 package com.indysfug;
 
 import com.indysfug.twitch.dto.TwitchChatMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -18,6 +19,7 @@ import java.util.TreeSet;
 @SpringBootApplication
 @EnableBinding(Sink.class)
 @RestController
+@Slf4j
 public class ChattingUsersApplication {
 
     public static void main(String[] args) throws Exception {
@@ -33,6 +35,9 @@ public class ChattingUsersApplication {
 
     @StreamListener(Sink.INPUT)
     public void receiveTwitchChatMessage(TwitchChatMessage twitchChatMessage) {
-        chattingUsers.add(twitchChatMessage.getUserName());
+        boolean newUser = chattingUsers.add(twitchChatMessage.getUserName());
+        if (newUser) {
+            log.info("Added new user [{}] to chatting users list.", twitchChatMessage.getUserName());
+        }
     }
 }
