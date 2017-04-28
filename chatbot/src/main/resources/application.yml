@@ -1,3 +1,4 @@
+spring.cloud.stream.bindings.input.destination: twitchChatResponses
 spring.cloud.stream.bindings.output.destination: twitchMessages
 spring.cloud.stream.default.contentType: application/json
 

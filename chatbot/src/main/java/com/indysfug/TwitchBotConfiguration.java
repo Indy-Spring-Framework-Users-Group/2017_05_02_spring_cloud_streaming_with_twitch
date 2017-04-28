@@ -1,4 +1,4 @@
-package com.indysfug.scrubber;
+package com.indysfug;
 
 import com.gikk.twirk.Twirk;
 import com.gikk.twirk.TwirkBuilder;

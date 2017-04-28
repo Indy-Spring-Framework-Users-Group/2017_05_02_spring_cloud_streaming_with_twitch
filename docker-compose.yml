@@ -16,6 +16,15 @@ services:
       TWITCH_CHANNEL: ${TWITCH_CHANNEL}
       TWITCH_OAUTHTOKEN: ${TWITCH_OAUTHTOKEN}
 
+  chatbot-ai:
+    build: chatbot-ai/
+    depends_on:
+     - rabbit
+    links:
+     - rabbit
+    environment:
+      SPRING_RABBITMQ_HOST: rabbit
+
   emotewatcher:
     build: emotewatcher/
     ports:

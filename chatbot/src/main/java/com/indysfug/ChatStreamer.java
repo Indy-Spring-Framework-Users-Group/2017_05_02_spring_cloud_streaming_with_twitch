@@ -1,5 +1,6 @@
-package com.indysfug.scrubber;
+package com.indysfug;
 
+import com.gikk.twirk.Twirk;
 import com.gikk.twirk.enums.EMOTE_SIZE;
 import com.gikk.twirk.events.TwirkListenerBaseImpl;
 import com.gikk.twirk.types.twitchMessage.TwitchMessage;
@@ -7,6 +8,8 @@ import com.gikk.twirk.types.users.TwitchUser;
 import com.indysfug.twitch.dto.TwitchChatMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
@@ -21,10 +24,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ChatStreamer extends TwirkListenerBaseImpl {
 
-    private MessageChannel messageChannel;
+    private MessageChannel outputChannel;
 
-    public ChatStreamer(@Qualifier(Source.OUTPUT) MessageChannel messageChannel) {
-        this.messageChannel = messageChannel;
+    public ChatStreamer(@Qualifier(Processor.OUTPUT) MessageChannel outputChannel) {
+        this.outputChannel = outputChannel;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class ChatStreamer extends TwirkListenerBaseImpl {
                 .target(message.getTarget())
                 .build();
         log.info("Streaming message: {}", chatMessage.toString());
-        messageChannel.send(MessageBuilder.withPayload(chatMessage).build());
+        outputChannel.send(MessageBuilder.withPayload(chatMessage).build());
     }
 
 }

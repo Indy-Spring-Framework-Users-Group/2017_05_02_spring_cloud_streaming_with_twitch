@@ -60,6 +60,7 @@
         <module>chatbot</module>
         <module>emotewatcher</module>
         <module>chattingusers</module>
+        <module>chatbot-ai</module>
     </modules>
 
     <build>

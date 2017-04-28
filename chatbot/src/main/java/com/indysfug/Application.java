@@ -1,15 +1,15 @@
-package com.indysfug.scrubber;
+package com.indysfug;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.cloud.stream.messaging.Processor;
 
 /**
  * @author russell.scheerer
  */
 @SpringBootApplication
-@EnableBinding(Source.class)
+@EnableBinding(Processor.class)
 public class Application {
     public static void main(String[] args) throws Exception {
         new SpringApplication(Application.class).run(args);
